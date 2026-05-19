@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Panel Estado Alumbrado Público</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- BARRA SUPERIOR -->
+
+    <div class="top-bar">
+
+        <img src="assets/logo.png"
+             alt="Logo Municipalidad">
+
+        <h1>
+            Panel Estado Alumbrado Público
+        </h1>
+
+    </div>
+
+
+
+    <!-- CONTENEDOR PRINCIPAL -->
+
+    <div class="container">
+
+
+        <!-- CONTADORES -->
+
+        <div class="cards-container">
+
+            <div class="card pendientes-card">
+
+                <h2>Pendientes</h2>
+
+                <p id="contadorPendientes">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="card solucionados-card">
+
+                <h2>Solucionados</h2>
+
+                <p id="contadorSolucionados">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="card sin-card">
+
+                <h2>Sin gestionar</h2>
+
+                <p id="contadorSin">
+                    0
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- BOTONES FILTROS -->
+
+        <div class="filtros">
+
+            <button onclick="mostrarPendientes()">
+
+                Pendientes
+
+            </button>
+
+
+            <button onclick="mostrarSolucionados()">
+
+                Solucionados
+
+            </button>
+
+
+            <button onclick="mostrarSinGestionar()">
+
+                Sin gestionar
+
+            </button>
+
+            <button onclick="exportarPDF()">
+
+                Exportar PDF
+
+            </button>
+
+        </div>
+
+
+
+        <!-- TITULO TABLA -->
+
+        <div class="titulo-tabla">
+
+            <h2 id="tituloTabla">
+
+                Casos Pendientes
+
+            </h2>
+
+        </div>
+
+
+
+        <!-- TABLA -->
+
+        <div class="tabla-container">
+
+            <table id="tablaResultados">
+
+                <thead id="theadTabla">
+
+                    <!-- JS CREA ENCABEZADOS -->
+
+                </thead>
+
+
+                <tbody id="tbodyTabla">
+
+                    <!-- JS CREA FILAS -->
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    </div>
+
+    <!-- PDF -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+    <!-- TABLAS PDF -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
+
+    <!-- LIBRERIA CSV -->
+
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+
+    <!-- SCRIPT PRINCIPAL -->
+
+    <script src="script.js"></script>
+
+</body>
+</html>
