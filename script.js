@@ -18,6 +18,15 @@ let filtroActual = "Pendiente";
 
 
 
+// FILTRO FECHAS
+
+let fechaInicio = "";
+
+let fechaFin = "";
+
+
+
+
 // CARGAR DATOS
 
 cargarDatos();
@@ -26,6 +35,38 @@ cargarDatos();
 // ACTUALIZAR CADA 20 SEGUNDOS
 
 setInterval(cargarDatos, 20000);
+
+
+
+
+// GUARDAR FECHAS
+
+function aplicarFiltroFechas(){
+
+    fechaInicio =
+        document.getElementById("fechaInicio").value;
+
+    fechaFin =
+        document.getElementById("fechaFin").value;
+
+
+    // RECARGAR TABLA ACTUAL
+
+    if(filtroActual === "Pendiente"){
+
+        mostrarPendientes();
+    }
+
+    else if(filtroActual === "Solucionado"){
+
+        mostrarSolucionados();
+    }
+
+    else{
+
+        mostrarSinGestionar();
+    }
+}
 
 
 
@@ -107,9 +148,7 @@ function obtenerEstado(item){
 
 
 
-    // ============================
     // IGNORAR NO APLICA
-    // ============================
 
     if(
         comentarioContratista === "no aplica"
@@ -120,9 +159,7 @@ function obtenerEstado(item){
 
 
 
-    // ============================
     // SOLUCIONADO
-    // ============================
 
     if(
         fechaSolucion !== ""
@@ -133,9 +170,7 @@ function obtenerEstado(item){
 
 
 
-    // ============================
     // PENDIENTE
-    // ============================
 
     if(
         fechaInformada !== ""
@@ -146,11 +181,150 @@ function obtenerEstado(item){
 
 
 
-    // ============================
     // SIN GESTIONAR
-    // ============================
 
     return "Sin gestionar";
+}
+
+
+
+
+
+// FILTRAR POR FECHAS
+
+function filtrarPorFecha(lista){
+
+    // SI NO HAY FECHAS
+
+    if(
+        fechaInicio === "" &&
+        fechaFin === ""
+    ){
+
+        return lista;
+    }
+
+
+    return lista.filter(item => {
+
+        let fechaTexto = "";
+
+
+        // ====================================
+        // SOLUCIONADOS
+        // FILTRAR POR FECHA SOLUCION
+        // ====================================
+
+        if(filtroActual === "Solucionado"){
+
+            fechaTexto =
+                item["FECHA SOLUCIÓN CONTRATISTA AP"] || "";
+        }
+
+        // ====================================
+        // PENDIENTES
+        // FILTRAR POR FECHA INFORMADA
+        // ====================================
+
+        else if(filtroActual === "Pendiente"){
+
+            fechaTexto =
+                item["FECHA INFORMADA A RESPONSABLE"] || "";
+        }
+
+        // ====================================
+        // SIN GESTIONAR
+        // FILTRAR POR FECHA INGRESO
+        // ====================================
+
+        else{
+
+            fechaTexto =
+                item["FECHA INGRESO"] || "";
+        }
+
+
+        if(!fechaTexto){
+
+            return false;
+        }
+
+
+        // ELIMINAR HORA SI EXISTE
+
+        const soloFecha =
+            fechaTexto.split(" ")[0];
+
+
+        const partes =
+            soloFecha.split("/");
+
+
+        if(partes.length !== 3){
+
+            return false;
+        }
+
+
+        // FECHA DEL ITEM
+
+        const fechaItem =
+            new Date(
+                Number(partes[2]),
+                Number(partes[1]) - 1,
+                Number(partes[0])
+            );
+
+
+
+        // FECHA INICIO
+
+        if(fechaInicio !== ""){
+
+            const partesInicio =
+                fechaInicio.split("-");
+
+            const inicio =
+                new Date(
+                    Number(partesInicio[0]),
+                    Number(partesInicio[1]) - 1,
+                    Number(partesInicio[2])
+                );
+
+            if(fechaItem < inicio){
+
+                return false;
+            }
+        }
+
+
+
+        // FECHA FIN
+
+        if(fechaFin !== ""){
+
+            const partesFin =
+                fechaFin.split("-");
+
+            const fin =
+                new Date(
+                    Number(partesFin[0]),
+                    Number(partesFin[1]) - 1,
+                    Number(partesFin[2]),
+                    23,
+                    59,
+                    59
+                );
+
+            if(fechaItem > fin){
+
+                return false;
+            }
+        }
+
+
+        return true;
+    });
 }
 
 
@@ -217,14 +391,22 @@ function mostrarPendientes(){
 
     filtroActual = "Pendiente";
 
-    document.getElementById("tituloTabla")
-        .textContent = "Casos Pendientes";
 
-
-    const resultados =
+    let resultados =
         datos.filter(item =>
             obtenerEstado(item) === "Pendiente"
         );
+
+
+    resultados =
+        filtrarPorFecha(resultados);
+
+
+    // TITULO CON CONTADOR
+
+    document.getElementById("tituloTabla")
+        .textContent =
+        `Casos Pendientes (${resultados.length})`;
 
 
     crearTablaPendientes(resultados);
@@ -240,14 +422,22 @@ function mostrarSolucionados(){
 
     filtroActual = "Solucionado";
 
-    document.getElementById("tituloTabla")
-        .textContent = "Casos Solucionados";
 
-
-    const resultados =
+    let resultados =
         datos.filter(item =>
             obtenerEstado(item) === "Solucionado"
         );
+
+
+    resultados =
+        filtrarPorFecha(resultados);
+
+
+    // TITULO CON CONTADOR
+
+    document.getElementById("tituloTabla")
+        .textContent =
+        `Casos Solucionados (${resultados.length})`;
 
 
     crearTablaSolucionados(resultados);
@@ -263,14 +453,22 @@ function mostrarSinGestionar(){
 
     filtroActual = "Sin gestionar";
 
-    document.getElementById("tituloTabla")
-        .textContent = "Casos Sin Gestionar";
 
-
-    const resultados =
+    let resultados =
         datos.filter(item =>
             obtenerEstado(item) === "Sin gestionar"
         );
+
+
+    resultados =
+        filtrarPorFecha(resultados);
+
+
+    // TITULO CON CONTADOR
+
+    document.getElementById("tituloTabla")
+        .textContent =
+        `Casos Sin Gestionar (${resultados.length})`;
 
 
     crearTablaSinGestionar(resultados);
@@ -384,8 +582,8 @@ function crearTablaSolucionados(resultados){
             <th>Problemática</th>
             <th>Luminaria registrada</th>
             <th>Envío encargado AP</th>
-            <th>Estado</th>
             <th>Fecha Solución</th>
+            <th>Estado</th>
 
         </tr>
     `;
@@ -427,12 +625,12 @@ function crearTablaSolucionados(resultados){
                     ${item["FECHA INFORMADA A RESPONSABLE"] || ""}
                 </td>
 
-                <td class="estado-solucionado">
-                    Solucionado
-                </td>
-
                 <td>
                     ${convertirFecha(item["FECHA SOLUCIÓN CONTRATISTA AP"])}
+                </td>
+
+                <td class="estado-solucionado">
+                    Solucionado
                 </td>
 
             </tr>
@@ -519,8 +717,12 @@ function convertirFecha(fechaTexto){
     }
 
 
+    const soloFecha =
+        fechaTexto.split(" ")[0];
+
+
     const partes =
-        fechaTexto.split("/");
+        soloFecha.split("/");
 
 
     if(partes.length === 3){
@@ -537,7 +739,7 @@ function convertirFecha(fechaTexto){
         return `${dia}-${mes}-${año}`;
     }
 
-    return fechaTexto;
+    return soloFecha;
 }
 
 

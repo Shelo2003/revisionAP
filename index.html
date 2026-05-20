@@ -35,6 +35,15 @@
     <div class="container">
 
 
+        <div class="titulo-total">
+
+            <h2>
+                Numero total de reportes
+            </h2>
+
+        </div>
+
+
         <!-- CONTADORES -->
 
         <div class="cards-container">
@@ -70,6 +79,44 @@
                 </p>
 
             </div>
+
+        </div>
+
+
+
+        <!-- FILTRO FECHAS -->
+
+        <div class="filtro-fechas">
+
+            <div>
+
+                <label>
+                    Desde
+                </label>
+
+                <input type="date"
+                       id="fechaInicio">
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Hasta
+                </label>
+
+                <input type="date"
+                       id="fechaFin">
+
+            </div>
+
+
+            <button onclick="aplicarFiltroFechas()">
+
+                Aplicar Fechas
+
+            </button>
 
         </div>
 
@@ -148,6 +195,10 @@
 
 
     </div>
+
+
+
+
 
     <!-- PDF -->
 
