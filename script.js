@@ -1,5 +1,4 @@
-
-// BASE DE DATOS 
+// BASE DE DATOS
 
 let datos = [];
 
@@ -81,7 +80,7 @@ function cargarDatos(){
 
 
 
-// OBTENER ESTADO 
+// OBTENER ESTADO
 
 function obtenerEstado(item){
 
@@ -108,12 +107,25 @@ function obtenerEstado(item){
 
 
 
-    
-    // SOLUCIONADO
+    // ============================
+    // IGNORAR NO APLICA
+    // ============================
 
     if(
-        fechaSolucion !== "" ||
         comentarioContratista === "no aplica"
+    ){
+
+        return "Ignorar";
+    }
+
+
+
+    // ============================
+    // SOLUCIONADO
+    // ============================
+
+    if(
+        fechaSolucion !== ""
     ){
 
         return "Solucionado";
@@ -121,7 +133,9 @@ function obtenerEstado(item){
 
 
 
+    // ============================
     // PENDIENTE
+    // ============================
 
     if(
         fechaInformada !== ""
@@ -132,7 +146,9 @@ function obtenerEstado(item){
 
 
 
+    // ============================
     // SIN GESTIONAR
+    // ============================
 
     return "Sin gestionar";
 }
@@ -168,7 +184,7 @@ function actualizarContadores(){
             solucionados++;
         }
 
-        else{
+        else if(estado === "Sin gestionar"){
 
             sinGestionar++;
         }
@@ -195,9 +211,7 @@ function actualizarContadores(){
 
 
 
-
 // MOSTRAR PENDIENTES
-
 
 function mostrarPendientes(){
 
@@ -220,9 +234,7 @@ function mostrarPendientes(){
 
 
 
-
 // MOSTRAR SOLUCIONADOS
-
 
 function mostrarSolucionados(){
 
@@ -247,7 +259,6 @@ function mostrarSolucionados(){
 
 // MOSTRAR SIN GESTIONAR
 
-
 function mostrarSinGestionar(){
 
     filtroActual = "Sin gestionar";
@@ -264,8 +275,6 @@ function mostrarSinGestionar(){
 
     crearTablaSinGestionar(resultados);
 }
-
-
 
 
 
@@ -510,18 +519,6 @@ function convertirFecha(fechaTexto){
     }
 
 
-    // SI ES "No Aplica"
-
-    if(
-        String(fechaTexto)
-        .trim()
-        .toLowerCase() === "no aplica"
-    ){
-
-        return "No Aplica";
-    }
-
-
     const partes =
         fechaTexto.split("/");
 
@@ -551,9 +548,7 @@ function convertirFecha(fechaTexto){
 
 
 
-// ================================
 // EXPORTAR PDF
-// ================================
 
 function exportarPDF(){
 
@@ -564,7 +559,6 @@ function exportarPDF(){
         unit: "mm",
         format: "a3"
     });
-
 
 
 
@@ -584,7 +578,6 @@ function exportarPDF(){
 
 
 
-
     // FECHA
 
     const fechaActual =
@@ -598,6 +591,7 @@ function exportarPDF(){
         14,
         25
     );
+
 
 
 
