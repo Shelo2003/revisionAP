@@ -1,6 +1,5 @@
-// ================================
-// BASE DE DATOS
-// ================================
+
+// BASE DE DATOS 
 
 let datos = [];
 
@@ -12,17 +11,15 @@ const urlCSV =
 
 
 
-// ================================
+
 // FILTRO ACTUAL
-// ================================
 
 let filtroActual = "Pendiente";
 
 
 
-// ================================
+
 // CARGAR DATOS
-// ================================
 
 cargarDatos();
 
@@ -83,9 +80,8 @@ function cargarDatos(){
 
 
 
-// ================================
-// OBTENER ESTADO
-// ================================
+
+// OBTENER ESTADO 
 
 function obtenerEstado(item){
 
@@ -112,9 +108,8 @@ function obtenerEstado(item){
 
 
 
-    // ============================
+    
     // SOLUCIONADO
-    // ============================
 
     if(
         fechaSolucion !== "" ||
@@ -126,9 +121,7 @@ function obtenerEstado(item){
 
 
 
-    // ============================
     // PENDIENTE
-    // ============================
 
     if(
         fechaInformada !== ""
@@ -139,9 +132,7 @@ function obtenerEstado(item){
 
 
 
-    // ============================
     // SIN GESTIONAR
-    // ============================
 
     return "Sin gestionar";
 }
@@ -149,9 +140,8 @@ function obtenerEstado(item){
 
 
 
-// ================================
+
 // ACTUALIZAR CONTADORES
-// ================================
 
 function actualizarContadores(){
 
@@ -198,9 +188,16 @@ function actualizarContadores(){
 
 
 
-// ================================
+
+
+
+
+
+
+
+
 // MOSTRAR PENDIENTES
-// ================================
+
 
 function mostrarPendientes(){
 
@@ -222,9 +219,10 @@ function mostrarPendientes(){
 
 
 
-// ================================
+
+
 // MOSTRAR SOLUCIONADOS
-// ================================
+
 
 function mostrarSolucionados(){
 
@@ -246,9 +244,9 @@ function mostrarSolucionados(){
 
 
 
-// ================================
+
 // MOSTRAR SIN GESTIONAR
-// ================================
+
 
 function mostrarSinGestionar(){
 
@@ -270,9 +268,17 @@ function mostrarSinGestionar(){
 
 
 
-// ================================
+
+
+
+
+
+
+
+
+
+
 // TABLA PENDIENTES
-// ================================
 
 function crearTablaPendientes(resultados){
 
@@ -347,9 +353,8 @@ function crearTablaPendientes(resultados){
 
 
 
-// ================================
+
 // TABLA SOLUCIONADOS
-// ================================
 
 function crearTablaSolucionados(resultados){
 
@@ -429,9 +434,8 @@ function crearTablaSolucionados(resultados){
 
 
 
-// ================================
+
 // TABLA SIN GESTIONAR
-// ================================
 
 function crearTablaSinGestionar(resultados){
 
@@ -491,9 +495,12 @@ function crearTablaSinGestionar(resultados){
 
 
 
-// ================================
+
+
+
+
+
 // CONVERTIR FECHA
-// ================================
 
 function convertirFecha(fechaTexto){
 
@@ -539,6 +546,11 @@ function convertirFecha(fechaTexto){
 
 
 
+
+
+
+
+
 // ================================
 // EXPORTAR PDF
 // ================================
@@ -555,6 +567,9 @@ function exportarPDF(){
 
 
 
+
+
+
     // TITULO
 
     doc.setFontSize(18);
@@ -564,6 +579,9 @@ function exportarPDF(){
         14,
         15
     );
+
+
+
 
 
 
@@ -580,6 +598,10 @@ function exportarPDF(){
         14,
         25
     );
+
+
+
+
 
 
 
@@ -618,6 +640,11 @@ function exportarPDF(){
             fillColor: [245, 245, 245]
         }
     });
+
+
+
+
+
 
 
 
