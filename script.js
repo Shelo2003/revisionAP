@@ -766,12 +766,22 @@ function exportarPDF(){
 
 
 
+    // TOTAL FILTRADO
+
+    const totalFiltrado =
+        document.getElementById("tbodyTabla")
+        .rows.length;
+
+
+
+
+
     // TITULO
 
     doc.setFontSize(18);
 
     doc.text(
-        `Reporte ${filtroActual}`,
+        `Reporte ${filtroActual} (${totalFiltrado})`,
         14,
         15
     );
@@ -780,19 +790,55 @@ function exportarPDF(){
 
 
 
-    // FECHA
-
-    const fechaActual =
-        new Date().toLocaleDateString("es-CL");
-
+    // RANGO FECHAS
 
     doc.setFontSize(11);
 
+
+    let textoFechas =
+        "Total general de la base de datos";
+
+
+    if(
+        fechaInicio !== "" &&
+        fechaFin !== ""
+    ){
+
+        const inicio =
+            fechaInicio.split("-").reverse().join("-");
+
+        const fin =
+            fechaFin.split("-").reverse().join("-");
+
+        textoFechas =
+            `${inicio} al ${fin}`;
+    }
+
+    else if(fechaInicio !== ""){
+
+        const inicio =
+            fechaInicio.split("-").reverse().join("-");
+
+        textoFechas =
+            `Desde ${inicio}`;
+    }
+
+    else if(fechaFin !== ""){
+
+        const fin =
+            fechaFin.split("-").reverse().join("-");
+
+        textoFechas =
+            `Hasta ${fin}`;
+    }
+
+
     doc.text(
-        `Fecha: ${fechaActual}`,
+        `Rango: ${textoFechas}`,
         14,
         25
     );
+
 
 
 
@@ -836,6 +882,7 @@ function exportarPDF(){
             fillColor: [245, 245, 245]
         }
     });
+
 
 
 
