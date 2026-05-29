@@ -27,6 +27,19 @@ let fechaFin = "";
 
 
 
+// VALIDAR FECHAS COMPLETAS
+
+function fechasCompletas(){
+
+    return (
+        fechaInicio !== "" &&
+        fechaFin !== ""
+    );
+}
+
+
+
+
 // CARGAR DATOS
 
 cargarDatos();
@@ -194,17 +207,6 @@ function obtenerEstado(item){
 
 function filtrarPorFecha(lista){
 
-    // SI NO HAY FECHAS
-
-    if(
-        fechaInicio === "" &&
-        fechaFin === ""
-    ){
-
-        return lista;
-    }
-
-
     return lista.filter(item => {
 
         let fechaTexto = "";
@@ -279,47 +281,43 @@ function filtrarPorFecha(lista){
 
         // FECHA INICIO
 
-        if(fechaInicio !== ""){
+        const partesInicio =
+            fechaInicio.split("-");
 
-            const partesInicio =
-                fechaInicio.split("-");
-
-            const inicio =
-                new Date(
-                    Number(partesInicio[0]),
-                    Number(partesInicio[1]) - 1,
-                    Number(partesInicio[2])
-                );
-
-            if(fechaItem < inicio){
-
-                return false;
-            }
-        }
+        const inicio =
+            new Date(
+                Number(partesInicio[0]),
+                Number(partesInicio[1]) - 1,
+                Number(partesInicio[2])
+            );
 
 
 
         // FECHA FIN
 
-        if(fechaFin !== ""){
+        const partesFin =
+            fechaFin.split("-");
 
-            const partesFin =
-                fechaFin.split("-");
+        const fin =
+            new Date(
+                Number(partesFin[0]),
+                Number(partesFin[1]) - 1,
+                Number(partesFin[2]),
+                23,
+                59,
+                59
+            );
 
-            const fin =
-                new Date(
-                    Number(partesFin[0]),
-                    Number(partesFin[1]) - 1,
-                    Number(partesFin[2]),
-                    23,
-                    59,
-                    59
-                );
 
-            if(fechaItem > fin){
+        if(fechaItem < inicio){
 
-                return false;
-            }
+            return false;
+        }
+
+
+        if(fechaItem > fin){
+
+            return false;
         }
 
 
@@ -392,6 +390,35 @@ function mostrarPendientes(){
     filtroActual = "Pendiente";
 
 
+    // VALIDAR FECHAS
+
+    if(!fechasCompletas()){
+
+        document.getElementById("tituloTabla")
+            .innerHTML = `
+                <div class="mensaje-vacio">
+
+                    <h3>
+                        Seleccione un rango de fechas
+                    </h3>
+
+                    <p>
+                        Para visualizar los reportes del sistema
+                    </p>
+
+                </div>
+            `;
+
+        document.getElementById("theadTabla")
+            .innerHTML = "";
+
+        document.getElementById("tbodyTabla")
+            .innerHTML = "";
+
+        return;
+    }
+
+
     let resultados =
         datos.filter(item =>
             obtenerEstado(item) === "Pendiente"
@@ -423,6 +450,35 @@ function mostrarSolucionados(){
     filtroActual = "Solucionado";
 
 
+    // VALIDAR FECHAS
+
+    if(!fechasCompletas()){
+
+        document.getElementById("tituloTabla")
+            .innerHTML = `
+                <div class="mensaje-vacio">
+
+                    <h3>
+                        Seleccione un rango de fechas
+                    </h3>
+
+                    <p>
+                        Para visualizar los reportes del sistema
+                    </p>
+
+                </div>
+            `;
+
+        document.getElementById("theadTabla")
+            .innerHTML = "";
+
+        document.getElementById("tbodyTabla")
+            .innerHTML = "";
+
+        return;
+    }
+
+
     let resultados =
         datos.filter(item =>
             obtenerEstado(item) === "Solucionado"
@@ -452,6 +508,35 @@ function mostrarSolucionados(){
 function mostrarSinGestionar(){
 
     filtroActual = "Sin gestionar";
+
+
+    // VALIDAR FECHAS
+
+    if(!fechasCompletas()){
+
+        document.getElementById("tituloTabla")
+            .innerHTML = `
+                <div class="mensaje-vacio">
+
+                    <h3>
+                        Seleccione un rango de fechas
+                    </h3>
+
+                    <p>
+                        Para visualizar los reportes del sistema
+                    </p>
+
+                </div>
+            `;
+
+        document.getElementById("theadTabla")
+            .innerHTML = "";
+
+        document.getElementById("tbodyTabla")
+            .innerHTML = "";
+
+        return;
+    }
 
 
     let resultados =
@@ -812,24 +897,6 @@ function exportarPDF(){
 
         textoFechas =
             `${inicio} al ${fin}`;
-    }
-
-    else if(fechaInicio !== ""){
-
-        const inicio =
-            fechaInicio.split("-").reverse().join("-");
-
-        textoFechas =
-            `Desde ${inicio}`;
-    }
-
-    else if(fechaFin !== ""){
-
-        const fin =
-            fechaFin.split("-").reverse().join("-");
-
-        textoFechas =
-            `Hasta ${fin}`;
     }
 
 

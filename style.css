@@ -571,3 +571,30 @@ button[onclick="exportarPDF()"]:hover{
 
 
 
+.mensaje-vacio{
+
+    padding: 50px 20px;
+
+    text-align: center;
+}
+
+.mensaje-vacio h3{
+
+    font-size: 30px;
+
+    color: #1e3a5f;
+
+    margin-bottom: 10px;
+}
+
+.mensaje-vacio p{
+
+    font-size: 17px;
+
+    color: #6b7280;
+}
+
+
+
+
+
